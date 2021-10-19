@@ -11,7 +11,8 @@ import {
 } from "react-native";
 
 function WelcomeScreen(props) {
-  const [modalVisible, setModalVisible] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [sModalVisible, setSModalVisible] = useState(false);
   return (
     <ImageBackground
       style={styles.background}
@@ -30,13 +31,41 @@ function WelcomeScreen(props) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Text>Sign in to your account.</Text>
             <TextInput style={styles.input} placeholder="Username" />
+
             <TextInput style={styles.input} placeholder="Password" />
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
               <Text style={styles.textStyle}>Login</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={sModalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setSModalVisible(!sModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text>Create an account.</Text>
+            <TextInput style={styles.input} placeholder="Email" />
+
+            <TextInput style={styles.input} placeholder="Password" />
+
+            <TextInput style={styles.input} placeholder="Confirm Password" />
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setSModalVisible(!sModalVisible)}
+            >
+              <Text style={styles.textStyle}>Sign up</Text>
             </Pressable>
           </View>
         </View>
@@ -51,9 +80,14 @@ function WelcomeScreen(props) {
             <Text style={styles.text}>Login</Text>
           </View>
         </Pressable>
-        <View style={styles.signupButton}>
-          <Text style={styles.text}>Sign up</Text>
-        </View>
+        <Pressable
+          style={styles.signupButton}
+          onPress={() => setSModalVisible(!sModalVisible)}
+        >
+          <View style={styles.signupButton}>
+            <Text style={styles.text}>Sign up</Text>
+          </View>
+        </Pressable>
       </View>
     </ImageBackground>
   );
@@ -111,8 +145,8 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 10,
+    padding: 30,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
